@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cell module &mdash; Minesweeper 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Minesweeper 0 documentation" href="index.html" />
+    <link rel="next" title="minesweeper module" href="minesweeper.html" />
+    <link rel="prev" title="minesweeper game" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="minesweeper.html" title="minesweeper module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="minesweeper game"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Minesweeper 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cell-module">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">cell</span></code> module<a class="headerlink" href="#cell-module" title="Permalink to this headline">¶</a></h1>
+<p>Ce module définit une classe pour représenter les cellules (ou cases) d’un plateau de
+jeu de démineur.</p>
+<p>Une cellule peut être</p>
+<ul class="simple">
+<li>cachée ou révélée (ou encore découverte)</li>
+<li>elle peut ou non contenir une bombe</li>
+<li>son voisinage (les cellules voisines) contient un certain nombre de bombes</li>
+<li>elle peut avoir été jugée comme contenant hypothétiquement une bombe.</li>
+</ul>
+<div class="section" id="class-description">
+<h2>Class description<a class="headerlink" href="#class-description" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cell.Cell">
+<em class="property">class </em><code class="descclassname">cell.</code><code class="descname">Cell</code><a class="reference internal" href="_modules/cell.html#Cell"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="methods">
+<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
+<dl class="method">
+<dt id="cell.Cell.is_revealed">
+<code class="descclassname">Cell.</code><code class="descname">is_revealed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.is_revealed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.is_revealed" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if self is revealed, False otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.reveal">
+<code class="descclassname">Cell.</code><code class="descname">reveal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.reveal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.reveal" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Side effect:</th><td class="field-body">modify reveal state of self</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.is_bomb">
+<code class="descclassname">Cell.</code><code class="descname">is_bomb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.is_bomb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.is_bomb" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if self contains a bomb, False otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_bomb</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.set_bomb">
+<code class="descclassname">Cell.</code><code class="descname">set_bomb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.set_bomb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.set_bomb" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Side effect:</th><td class="field-body">put a bomb in self</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_bomb</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.is_hypothetic">
+<code class="descclassname">Cell.</code><code class="descname">is_hypothetic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.is_hypothetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.is_hypothetic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if cel if hypothetically containing a bomb
+False otherwise</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_hypothetic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.set_hypothetic">
+<code class="descclassname">Cell.</code><code class="descname">set_hypothetic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.set_hypothetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.set_hypothetic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Side effect:</th><td class="field-body">modify hypothetic bomb state of self if self is not revealed</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_hypothetic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.unset_hypothetic">
+<code class="descclassname">Cell.</code><code class="descname">unset_hypothetic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.unset_hypothetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.unset_hypothetic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Side effect:</th><td class="field-body">modify hypothetic bomb state of self if self is not revealed</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_hypothetic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">unset_hypothetic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.number_of_bombs_in_neighborhood">
+<code class="descclassname">Cell.</code><code class="descname">number_of_bombs_in_neighborhood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.number_of_bombs_in_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.number_of_bombs_in_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">number of bombs in the neighborhood of self</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">incr_number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.incr_number_of_bombs_in_neighborhood">
+<code class="descclassname">Cell.</code><code class="descname">incr_number_of_bombs_in_neighborhood</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.incr_number_of_bombs_in_neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.incr_number_of_bombs_in_neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Side effect:</th><td class="field-body">increment the number of bombs in neighborhood of self</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">incr_number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="special-method">
+<h2>Special method<a class="headerlink" href="#special-method" title="Permalink to this headline">¶</a></h2>
+<p>Only two special methods for this class.</p>
+<dl class="method">
+<dt id="cell.Cell.__init__">
+<code class="descclassname">Cell.</code><code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a new hidden cell of a minesweeper’s grid.
+existence of a bomb, number of bombs in neighborhood
+have to be stated later.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#cell.Cell" title="cell.Cell">Cell</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cell.Cell.__str__">
+<code class="descclassname">Cell.</code><code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cell.html#Cell.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cell.Cell.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string representation of self state</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Example:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">cel</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_hypothetic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">cel</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;?&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">unset_hypothetic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">reveal</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">cel</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">incr_number_of_bombs_in_neighborhood</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">cel</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">set_bomb</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">cel</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;B&#39;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_dept_info.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">cell</span></code> module</a><ul>
+<li><a class="reference internal" href="#class-description">Class description</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+<li><a class="reference internal" href="#special-method">Special method</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">minesweeper game</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="minesweeper.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">minesweeper</span></code> module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cell.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="minesweeper.html" title="minesweeper module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="minesweeper game"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Minesweeper 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2017, Tristan Coignion, Ajwad Tayebi, Univ. Lille1</a>.
+      Last updated on 04/10/2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.0.
+    </div>
+  </body>
+</html>

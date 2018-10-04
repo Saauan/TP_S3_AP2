@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>minesweeper &mdash; Minesweeper 0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Minesweeper 0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Minesweeper 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for minesweeper</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`minesweeper` module</span>
+
+<span class="sd">:author: HERE YOUR NAME</span>
+
+<span class="sd">:date:  </span>
+
+<span class="sd">This module provides functions and a class for minesweeper&#39;s game&#39;s management.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">cell</span> <span class="k">import</span> <span class="n">Cell</span>
+
+
+<span class="c1">################################################</span>
+<span class="c1"># Type declaration</span>
+<span class="c1">################################################</span>
+
+<div class="viewcode-block" id="GameState"><a class="viewcode-back" href="../minesweeper.html#minesweeper.GameState">[docs]</a><span class="k">class</span> <span class="nc">GameState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A class to define an enumerated type with three values :</span>
+
+<span class="sd">    * ``winning``</span>
+<span class="sd">    * ``losing``</span>
+<span class="sd">    * ``unfinished``</span>
+
+<span class="sd">    for the three state of minesweeper game.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">winning</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">losing</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">unfinished</span> <span class="o">=</span> <span class="mi">3</span></div>
+
+
+<span class="c1">##############################################</span>
+<span class="c1"># Function for game&#39;s setup and management</span>
+<span class="c1">##############################################</span>
+
+
+<div class="viewcode-block" id="neighborhood"><a class="viewcode-back" href="../minesweeper.html#minesweeper.neighborhood">[docs]</a><span class="k">def</span> <span class="nf">neighborhood</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param x: x-coordinate of a cell</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y-coordinate of a cell</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    :param height: height of the grid</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param width: widthof the grid</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :return: the list of coordinates of the neighbors of position (x,y) in a</span>
+<span class="sd">             grid of size width*height</span>
+<span class="sd">    :rtype: list of tuple</span>
+<span class="sd">    :UC: 0 &lt;= x &lt; width and 0 &lt;= y &lt; height</span>
+<span class="sd">    :Examples:</span>
+
+<span class="sd">    &gt;&gt;&gt; neighborhood(3, 3, 10, 10)</span>
+<span class="sd">    [(2, 2), (2, 3), (2, 4), (3, 2), (3, 4), (4, 2), (4, 3), (4, 4)]</span>
+<span class="sd">    &gt;&gt;&gt; neighborhood(0, 3, 10, 10)</span>
+<span class="sd">    [(0, 2), (0, 4), (1, 2), (1, 3), (1, 4)]</span>
+<span class="sd">    &gt;&gt;&gt; neighborhood(0, 0, 10, 10)</span>
+<span class="sd">    [(0, 1), (1, 0), (1, 1)]</span>
+<span class="sd">    &gt;&gt;&gt; neighborhood(9, 9, 10, 10)</span>
+<span class="sd">    [(8, 8), (8, 9), (9, 8)]</span>
+<span class="sd">    &gt;&gt;&gt; neighborhood(3, 9, 10, 10)</span>
+<span class="sd">    [(2, 8), (2, 9), (3, 8), (4, 8), (4, 9)]</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Minesweeper"><a class="viewcode-back" href="../minesweeper.html#minesweeper.Minesweeper">[docs]</a><span class="k">class</span> <span class="nc">Minesweeper</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; game = Minesweeper(20, 10, 4)</span>
+<span class="sd">    &gt;&gt;&gt; game.get_width()</span>
+<span class="sd">    20</span>
+<span class="sd">    &gt;&gt;&gt; game.get_height()</span>
+<span class="sd">    10</span>
+<span class="sd">    &gt;&gt;&gt; game.get_nbombs()</span>
+<span class="sd">    4</span>
+<span class="sd">    &gt;&gt;&gt; game.get_state() == GameState.unfinished </span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; cel = game.get_cell(1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; cel.is_revealed()</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">nbombs</span><span class="o">=</span><span class="mi">99</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        build a minesweeper grid of size width*height cells</span>
+<span class="sd">        with nbombs bombs randomly placed.  </span>
+
+<span class="sd">        :param width:[optional] horizontal size of game (default = 30)</span>
+<span class="sd">        :type width: int</span>
+<span class="sd">        :param height: [optional] vertical size of game (default = 20)</span>
+<span class="sd">        :type height: int</span>
+<span class="sd">        :param nbombs: [optional] number of bombs (default = 99)</span>
+<span class="sd">        :type nbombs: int</span>
+<span class="sd">        :return: a fresh grid of  width*height cells with nbombs bombs randomly placed.</span>
+<span class="sd">        :rtype: Minesweeper</span>
+<span class="sd">        :UC: width and height must be positive integers, and</span>
+<span class="sd">             nbombs &lt;= width * height</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; game = Minesweeper(20, 10, 4)</span>
+<span class="sd">        &gt;&gt;&gt; game.get_width()</span>
+<span class="sd">        20</span>
+<span class="sd">        &gt;&gt;&gt; game.get_height()</span>
+<span class="sd">        10</span>
+<span class="sd">        &gt;&gt;&gt; game.get_nbombs()</span>
+<span class="sd">        4</span>
+<span class="sd">        &gt;&gt;&gt; game.get_state() == GameState.unfinished </span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+
+<div class="viewcode-block" id="Minesweeper.get_height"><a class="viewcode-back" href="../minesweeper.html#minesweeper.Minesweeper.get_height">[docs]</a>    <span class="k">def</span> <span class="nf">get_height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: height of the grid in self</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Minesweeper.get_width"><a class="viewcode-back" href="../minesweeper.html#minesweeper.Minesweeper.get_width">[docs]</a>    <span class="k">def</span> <span class="nf">get_width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: width of the grid in game</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">            &quot;&quot;&quot;</span></div>
+
+    
+<div class="viewcode-block" id="Minesweeper.get_nbombs"><a class="viewcode-back" href="../minesweeper.html#minesweeper.Minesweeper.get_nbombs">[docs]</a>    <span class="k">def</span> <span class="nf">get_nbombs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: number of bombs in game</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+
+
+    <span class="k">def</span> <span class="nf">get_cell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param x: x-coordinate of a cell</span>
+<span class="sd">        :type x: int</span>
+<span class="sd">        :param y: y-coordinate of a cell</span>
+<span class="sd">        :type y: int</span>
+<span class="sd">        :return: the cell of coordinates (x,y) in the game&#39;s grid</span>
+<span class="sd">        :type: cell</span>
+<span class="sd">        :UC: 0 &lt;= x &lt; width of game and O &lt;= y &lt; height of game</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+
+<div class="viewcode-block" id="Minesweeper.get_state"><a class="viewcode-back" href="../minesweeper.html#minesweeper.Minesweeper.get_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: the state of the game (winning, losing or unfinished)</span>
+<span class="sd">        :rtype: GameState</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        &quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="Minesweeper.reveal_all_cells_from"><a class="viewcode-back" href="../minesweeper.html#minesweeper.Minesweeper.reveal_all_cells_from">[docs]</a>    <span class="k">def</span> <span class="nf">reveal_all_cells_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param x: x-coordinate</span>
+<span class="sd">        :param y: y-coordinate</span>
+<span class="sd">        :return: none</span>
+<span class="sd">        :side effect: reveal all cells of game game from the initial cell (x,y).</span>
+<span class="sd">        :UC: 0 &lt;= x &lt; width of game and O &lt;= y &lt; height of game</span>
+<span class="sd">        &quot;&quot;&quot;</span></div></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span><span class="o">=</span><span class="n">doctest</span><span class="o">.</span><span class="n">NORMALIZE_WHITESPACE</span> <span class="o">|</span> <span class="n">doctest</span><span class="o">.</span><span class="n">ELLIPSIS</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo_dept_info.jpg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Minesweeper 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2017, Tristan Coignion, Ajwad Tayebi, Univ. Lille1</a>.
+      Last updated on 04/10/2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.0.
+    </div>
+  </body>
+</html>

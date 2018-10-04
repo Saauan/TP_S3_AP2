@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cell &mdash; Minesweeper 0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Minesweeper 0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Minesweeper 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cell</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`cell` module</span>
+
+<span class="sd">:author: YOUR NAME HERE</span>
+
+<span class="sd">:date: </span>
+
+
+<span class="sd">&quot;&quot;&quot;</span>
+    
+<div class="viewcode-block" id="Cell"><a class="viewcode-back" href="../cell.html#cell.Cell">[docs]</a><span class="k">class</span> <span class="nc">Cell</span><span class="p">():</span>
+    
+<div class="viewcode-block" id="Cell.__init__"><a class="viewcode-back" href="../cell.html#cell.Cell.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: a new hidden cell of a minesweeper&#39;s grid.</span>
+<span class="sd">                 existence of a bomb, number of bombs in neighborhood</span>
+<span class="sd">                 have to be stated later.</span>
+<span class="sd">        :rtype: Cell</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Examples:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_bomb()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_revealed()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.number_of_bombs_in_neighborhood()</span>
+<span class="sd">        0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bomb_state</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__hypothetic_state</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reveal_state</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bombs_neighbours</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="Cell.is_revealed"><a class="viewcode-back" href="../cell.html#cell.Cell.is_revealed">[docs]</a>    <span class="k">def</span> <span class="nf">is_revealed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: True if self is revealed, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_revealed()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.reveal()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_revealed()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__reveal_state</span> <span class="o">==</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Cell.reveal"><a class="viewcode-back" href="../cell.html#cell.Cell.reveal">[docs]</a>    <span class="k">def</span> <span class="nf">reveal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :side effect: modify reveal state of self</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_revealed()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.reveal()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_revealed()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reveal_state</span> <span class="o">=</span> <span class="kc">True</span></div>
+        
+<div class="viewcode-block" id="Cell.is_bomb"><a class="viewcode-back" href="../cell.html#cell.Cell.is_bomb">[docs]</a>    <span class="k">def</span> <span class="nf">is_bomb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: True if self contains a bomb, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_bomb()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_bomb()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_bomb()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bomb_state</span> <span class="o">==</span> <span class="kc">True</span></div>
+    
+<div class="viewcode-block" id="Cell.set_bomb"><a class="viewcode-back" href="../cell.html#cell.Cell.set_bomb">[docs]</a>    <span class="k">def</span> <span class="nf">set_bomb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :side effect: put a bomb in self </span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_bomb()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_bomb()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_bomb()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bomb_state</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Cell.is_hypothetic"><a class="viewcode-back" href="../cell.html#cell.Cell.is_hypothetic">[docs]</a>    <span class="k">def</span> <span class="nf">is_hypothetic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: True if cel if hypothetically containing a bomb</span>
+<span class="sd">                 False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_hypothetic()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hypothetic_state</span> <span class="o">==</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Cell.set_hypothetic"><a class="viewcode-back" href="../cell.html#cell.Cell.set_hypothetic">[docs]</a>    <span class="k">def</span> <span class="nf">set_hypothetic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :side effect: modify hypothetic bomb state of self if self is not revealed</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_hypothetic()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__hypothetic_state</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Cell.unset_hypothetic"><a class="viewcode-back" href="../cell.html#cell.Cell.unset_hypothetic">[docs]</a>    <span class="k">def</span> <span class="nf">unset_hypothetic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :side effect: modify hypothetic bomb state of self if self is not revealed</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_hypothetic()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; cel.unset_hypothetic()</span>
+<span class="sd">        &gt;&gt;&gt; cel.is_hypothetic()</span>
+<span class="sd">        False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__hypothetic_state</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Cell.number_of_bombs_in_neighborhood"><a class="viewcode-back" href="../cell.html#cell.Cell.number_of_bombs_in_neighborhood">[docs]</a>    <span class="k">def</span> <span class="nf">number_of_bombs_in_neighborhood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: number of bombs in the neighborhood of self</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.number_of_bombs_in_neighborhood()</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; cel.incr_number_of_bombs_in_neighborhood()</span>
+<span class="sd">        &gt;&gt;&gt; cel.number_of_bombs_in_neighborhood()</span>
+<span class="sd">        1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bombs_neighbours</span></div>
+
+        
+<div class="viewcode-block" id="Cell.incr_number_of_bombs_in_neighborhood"><a class="viewcode-back" href="../cell.html#cell.Cell.incr_number_of_bombs_in_neighborhood">[docs]</a>    <span class="k">def</span> <span class="nf">incr_number_of_bombs_in_neighborhood</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        :side effect: increment the number of bombs in neighborhood of self</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; cel.number_of_bombs_in_neighborhood()</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; cel.incr_number_of_bombs_in_neighborhood()</span>
+<span class="sd">        &gt;&gt;&gt; cel.number_of_bombs_in_neighborhood()</span>
+<span class="sd">        1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bombs_neighbours</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="Cell.__str__"><a class="viewcode-back" href="../cell.html#cell.Cell.__str__">[docs]</a>    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: a string representation of self state</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        :UC: none</span>
+<span class="sd">        :Example:</span>
+<span class="sd">        </span>
+<span class="sd">        &gt;&gt;&gt; cel = Cell()</span>
+<span class="sd">        &gt;&gt;&gt; str(cel) == &#39; &#39;</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_hypothetic()</span>
+<span class="sd">        &gt;&gt;&gt; str(cel) == &#39;?&#39;</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; cel.unset_hypothetic()</span>
+<span class="sd">        &gt;&gt;&gt; cel.reveal()</span>
+<span class="sd">        &gt;&gt;&gt; str(cel) == &#39;0&#39;</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; cel.incr_number_of_bombs_in_neighborhood()</span>
+<span class="sd">        &gt;&gt;&gt; str(cel) == &#39;1&#39;</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; cel.set_bomb()</span>
+<span class="sd">        &gt;&gt;&gt; str(cel) == &#39;B&#39;</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">&#39;B&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s1">&#39;?&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39; &#39;</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span><span class="o">=</span><span class="n">doctest</span><span class="o">.</span><span class="n">NORMALIZE_WHITESPACE</span> <span class="o">|</span> <span class="n">doctest</span><span class="o">.</span><span class="n">ELLIPSIS</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo_dept_info.jpg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Minesweeper 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2017, Tristan Coignion, Ajwad Tayebi, Univ. Lille1</a>.
+      Last updated on 04/10/2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.0.
+    </div>
+  </body>
+</html>

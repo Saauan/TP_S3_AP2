@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>graphicalboard &mdash; Minesweeper 0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Minesweeper 0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Minesweeper 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for graphicalboard</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">:mod:`graphicalboard` module</span>
+
+<span class="sd">:author: `FIL - IEEA - Univ. Lille1.fr &lt;http://portail.fil.univ-lille1.fr&gt;`_</span>
+
+<span class="sd">:date:  2015, september, last revision: 2017, september</span>
+
+<span class="sd">This module implements some functions to draw a minesweeper game. The</span>
+<span class="sd">graphical board uses buttons to draw each cell and maps the left-click</span>
+<span class="sd">and right-click events to interact with the minesweeper.</span>
+
+<span class="sd">This module uses from :mod:`minesweeper`:</span>
+
+<span class="sd">* :method:`Minesweeper.get_width`</span>
+<span class="sd">* :method:`Minesweeper.get_height`</span>
+<span class="sd">* :method:`Minesweeper.get_cell`</span>
+<span class="sd">* :method:`Minesweeper.reveal_all_cells_from`</span>
+<span class="sd">* :method:`Minesweeper.get_state`</span>
+
+<span class="sd">and from :mod:`cell`</span>
+<span class="sd">* :method:`Cell.set_hypothetic`</span>
+<span class="sd">* :method:`Cell.unset_hypothetic`</span>
+<span class="sd">* :method:`Cell.is_bomb`</span>
+<span class="sd">* :method:`Cell.is_hypothetic_bomb`</span>
+<span class="sd">* :method:`Cell.is_revealed`</span>
+
+<span class="sd">To draw and run a minesweeper game, one has to:</span>
+
+<span class="sd">* create a minesweeper game g</span>
+<span class="sd">* create a graphical board from the minesweeper g</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">cell</span> <span class="k">import</span> <span class="n">Cell</span>
+<span class="kn">from</span> <span class="nn">minesweeper</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># the list of icons</span>
+<span class="n">img</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="create"><a class="viewcode-back" href="../graphicalboard.html#graphicalboard.create">[docs]</a><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">game</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function creates the graphical board from a game. It also</span>
+<span class="sd">    launches the event loop. Thus, this is the only function to run to</span>
+<span class="sd">    have a functional graphical board.</span>
+
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type game: Minesweeper</span>
+<span class="sd">    :return: None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">img</span>
+    <span class="c1"># create a new Tk window</span>
+    <span class="n">win</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+    <span class="c1"># define the window title</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Minesweeper (</span><span class="si">{:d}</span><span class="s1"> bombs)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">get_nbombs</span><span class="p">()))</span>
+    <span class="c1"># load images</span>
+    <span class="n">iconpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)),</span> <span class="s2">&quot;icons&quot;</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;0.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;1.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;2.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;3.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;4.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;5.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;6.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;7.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;8.gif&quot;</span><span class="p">)),</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;9.gif&quot;</span><span class="p">)),</span>  <span class="c1"># unrevealed</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;10.gif&quot;</span><span class="p">)),</span> <span class="c1"># bomb explosed</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;11.gif&quot;</span><span class="p">)),</span> <span class="c1"># bomb discovered</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;12.gif&quot;</span><span class="p">)),</span> <span class="c1"># flag</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">file</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">iconpath</span><span class="p">,</span> <span class="s2">&quot;13.gif&quot;</span><span class="p">))</span>  <span class="c1"># question</span>
+    <span class="p">]</span>
+    <span class="c1"># create the graphical board made of Tk buttons</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">game</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span>
+    <span class="n">board</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+            <span class="n">button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">column</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">button</span><span class="p">)</span>
+            <span class="c1"># bind the right-click event</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-3&gt;&quot;</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">__changeflag</span><span class="p">,</span> <span class="n">board</span><span class="o">=</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="o">=</span><span class="n">game</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">j</span><span class="p">))</span>
+            <span class="c1"># bind the left-click event</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">__changestate</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
+    <span class="c1"># event loop</span>
+    <span class="n">win</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div>
+
+<span class="k">def</span> <span class="nf">__test_end</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function tests if the game is finished or not.  In the first</span>
+<span class="sd">    case, depending on the state of the game, all graphical cells are</span>
+<span class="sd">    diabled or events are unbinded.</span>
+
+<span class="sd">    :param board: the board of buttons</span>
+<span class="sd">    :type board: list of list of ``button``</span>
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type game: Minesweeper</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">GameState</span><span class="o">.</span><span class="n">losing</span><span class="p">:</span>
+        <span class="n">__disable_game</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">state</span> <span class="o">==</span> <span class="n">GameState</span><span class="o">.</span><span class="n">winning</span><span class="p">:</span>
+        <span class="n">__block_game</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__changestate</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is called on left-click on a button.</span>
+
+<span class="sd">    :param board: the board of buttons</span>
+<span class="sd">    :type board: list of list of ``button``</span>
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type g: Minesweeper</span>
+<span class="sd">    :param x: the x-coordinate of the cell</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: the y-coordinate of the cell</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">game</span><span class="o">.</span><span class="n">reveal_all_cells_from</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">__redraw</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">__test_end</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__changeflag</span><span class="p">(</span><span class="n">evt</span><span class="p">,</span> <span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is called on right-click on a button.</span>
+
+<span class="sd">    :param board: the board of buttons</span>
+<span class="sd">    :type board: list of list of ``button``</span>
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type game: Minesweeper</span>
+<span class="sd">    :param x: the x-coordinate of the cell</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: the y-coordinate of the cell</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cel</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">():</span>
+        <span class="n">cel</span><span class="o">.</span><span class="n">set_hypothetic</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cel</span><span class="o">.</span><span class="n">unset_hypothetic</span><span class="p">()</span>
+    <span class="n">__redraw</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">__test_end</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">__block_game</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is called once the player wins. The chosen behavior</span>
+<span class="sd">    is to let the board as it and to unbind events.</span>
+
+<span class="sd">    :param board: the board of buttons</span>
+<span class="sd">    :type board: list of list of ``button``</span>
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type game: Minesweeper</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">game</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+            <span class="n">button</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-3&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">__disable_game</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function is called once the player looses. The chosen behavior</span>
+<span class="sd">    is to shade the board and to unbind events.</span>
+
+<span class="sd">    :param board: the board of buttons</span>
+<span class="sd">    :type board: list of list of ``button``</span>
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type game: Minesweeper</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">game</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+            <span class="n">button</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">DISABLED</span><span class="p">)</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Button-3&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">__redraw</span><span class="p">(</span><span class="n">board</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function draws the board. Positions x and y are used to test</span>
+<span class="sd">    which bomb icon has to be drawn.</span>
+
+<span class="sd">    :param board: the board of buttons</span>
+<span class="sd">    :type board: list of list of ``button``</span>
+<span class="sd">    :param game: the minesweeper game</span>
+<span class="sd">    :type game: game</span>
+<span class="sd">    :param x: the x-coordinate of the cell</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: the y-coordinate of the cell</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span> <span class="n">game</span><span class="o">.</span><span class="n">get_height</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+            <span class="n">cel</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+            <span class="n">button</span> <span class="o">=</span> <span class="n">board</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">cel</span><span class="o">.</span><span class="n">is_bomb</span><span class="p">():</span>
+                    <span class="n">new_img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">j</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">==</span> <span class="n">i</span><span class="p">:</span>
+                        <span class="n">new_img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">new_img</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">cel</span><span class="o">.</span><span class="n">number_of_bombs_in_neighborhood</span><span class="p">()]</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="n">tk</span><span class="o">.</span><span class="n">FLAT</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">new_img</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">cel</span><span class="o">.</span><span class="n">is_hypothetic</span><span class="p">():</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="mi">12</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">img</span><span class="p">[</span><span class="mi">9</span><span class="p">])</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">doctest</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo_dept_info.jpg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Minesweeper 0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2017, Tristan Coignion, Ajwad Tayebi, Univ. Lille1</a>.
+      Last updated on 04/10/2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.0.
+    </div>
+  </body>
+</html>

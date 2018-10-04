@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>minesweeper module &mdash; Minesweeper 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="Minesweeper 0 documentation" href="index.html" />
+    <link rel="next" title="graphicalboard module" href="graphicalboard.html" />
+    <link rel="prev" title="cell module" href="cell.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="graphicalboard.html" title="graphicalboard module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cell.html" title="cell module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Minesweeper 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="minesweeper-module">
+<h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">minesweeper</span></code> module<a class="headerlink" href="#minesweeper-module" title="Permalink to this headline">¶</a></h1>
+<p>Ce module définit des classes et fonctions auxiliaires pour gérer le plateau du jeu de démineur.</p>
+<div class="section" id="class-description">
+<h2>Class description<a class="headerlink" href="#class-description" title="Permalink to this headline">¶</a></h2>
+<p>Une classe pour définir un type énuméré pour l’état du jeu.</p>
+<div class="section" id="la-classe-gamestate">
+<h3>La classe <code class="xref py py-class docutils literal notranslate"><span class="pre">GameState</span></code><a class="headerlink" href="#la-classe-gamestate" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="minesweeper.GameState">
+<em class="property">class </em><code class="descclassname">minesweeper.</code><code class="descname">GameState</code><a class="reference internal" href="_modules/minesweeper.html#GameState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.GameState" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class to define an enumerated type with three values :</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">winning</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">losing</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">unfinished</span></code></li>
+</ul>
+<p>for the three state of minesweeper game.</p>
+</dd></dl>
+
+<p>Les trois états possibles du jeu : gagnant (winning), perdant (losing), ou inachevé (unfinished) sont décrits par trois attributs de mêmes noms.</p>
+</div>
+<div class="section" id="la-classe-minesweeper">
+<h3>La classe <code class="xref py py-class docutils literal notranslate"><span class="pre">Minesweeper</span></code><a class="headerlink" href="#la-classe-minesweeper" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="minesweeper.Minesweeper">
+<em class="property">class </em><code class="descclassname">minesweeper.</code><code class="descname">Minesweeper</code><span class="sig-paren">(</span><em>width=30</em>, <em>height=20</em>, <em>nbombs=99</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#Minesweeper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.Minesweeper" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">game</span> <span class="o">=</span> <span class="n">Minesweeper</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">game</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span>
+<span class="go">20</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">game</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">game</span><span class="o">.</span><span class="n">get_nbombs</span><span class="p">()</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">game</span><span class="o">.</span><span class="n">get_state</span><span class="p">()</span> <span class="o">==</span> <span class="n">GameState</span><span class="o">.</span><span class="n">unfinished</span> 
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span> <span class="o">=</span> <span class="n">game</span><span class="o">.</span><span class="n">get_cell</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cel</span><span class="o">.</span><span class="n">is_revealed</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="methodes">
+<h4>Méthodes<a class="headerlink" href="#methodes" title="Permalink to this headline">¶</a></h4>
+<dl class="method">
+<dt id="minesweeper.Minesweeper.get_width">
+<code class="descclassname">Minesweeper.</code><code class="descname">get_width</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#Minesweeper.get_width"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.Minesweeper.get_width" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">width of the grid in game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="minesweeper.Minesweeper.get_height">
+<code class="descclassname">Minesweeper.</code><code class="descname">get_height</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#Minesweeper.get_height"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.Minesweeper.get_height" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">height of the grid in self</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="minesweeper.Minesweeper.get_nbombs">
+<code class="descclassname">Minesweeper.</code><code class="descname">get_nbombs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#Minesweeper.get_nbombs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.Minesweeper.get_nbombs" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">number of bombs in game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="minesweeper.Minesweeper.get_state">
+<code class="descclassname">Minesweeper.</code><code class="descname">get_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#Minesweeper.get_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.Minesweeper.get_state" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the state of the game (winning, losing or unfinished)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#minesweeper.GameState" title="minesweeper.GameState">GameState</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="minesweeper.Minesweeper.reveal_all_cells_from">
+<code class="descclassname">Minesweeper.</code><code class="descname">reveal_all_cells_from</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#Minesweeper.reveal_all_cells_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.Minesweeper.reveal_all_cells_from" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> – x-coordinate</li>
+<li><strong>y</strong> – y-coordinate</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">none</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Side effect:</th><td class="field-body"><p class="first">reveal all cells of game game from the initial cell (x,y).</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body"><p class="first last">0 &lt;= x &lt; width of game and O &lt;= y &lt; height of game</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="fonction-auxiliaire">
+<h2>Fonction auxiliaire<a class="headerlink" href="#fonction-auxiliaire" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="minesweeper.neighborhood">
+<code class="descclassname">minesweeper.</code><code class="descname">neighborhood</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper.html#neighborhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.neighborhood" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> (<em>int</em>) – x-coordinate of a cell</li>
+<li><strong>y</strong> (<em>int</em>) – y-coordinate of a cell</li>
+<li><strong>height</strong> (<em>int</em>) – height of the grid</li>
+<li><strong>width</strong> (<em>int</em>) – widthof the grid</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the list of coordinates of the neighbors of position (x,y) in a
+grid of size width*height</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list of tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body"><p class="first">0 &lt;= x &lt; width and 0 &lt;= y &lt; height</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Examples:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">[(2, 2), (2, 3), (2, 4), (3, 2), (3, 4), (4, 2), (4, 3), (4, 4)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">[(0, 2), (0, 4), (1, 2), (1, 3), (1, 4)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">[(0, 1), (1, 0), (1, 1)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">[(8, 8), (8, 9), (9, 8)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neighborhood</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="go">[(2, 8), (2, 9), (3, 8), (4, 8), (4, 9)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo_dept_info.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">minesweeper</span></code> module</a><ul>
+<li><a class="reference internal" href="#class-description">Class description</a><ul>
+<li><a class="reference internal" href="#la-classe-gamestate">La classe <code class="docutils literal notranslate"><span class="pre">GameState</span></code></a></li>
+<li><a class="reference internal" href="#la-classe-minesweeper">La classe <code class="docutils literal notranslate"><span class="pre">Minesweeper</span></code></a><ul>
+<li><a class="reference internal" href="#methodes">Méthodes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fonction-auxiliaire">Fonction auxiliaire</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="cell.html"
+                        title="previous chapter"><code class="docutils literal notranslate"><span class="pre">cell</span></code> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="graphicalboard.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">graphicalboard</span></code> module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/minesweeper.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="graphicalboard.html" title="graphicalboard module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cell.html" title="cell module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Minesweeper 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2017, Tristan Coignion, Ajwad Tayebi, Univ. Lille1</a>.
+      Last updated on 04/10/2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.0.
+    </div>
+  </body>
+</html>
