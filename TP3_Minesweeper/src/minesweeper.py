@@ -130,20 +130,44 @@ class Minesweeper():
         self.__height = height
         self.__nbombs = nbombs
         self.__state = GameState.unfinished
-        self.__grid = [[Cell() for j in range(width)] for i in range(height)]
+        self.grid = [[Cell() for j in range(width)] for i in range(height)]
         self.__place_bombs()
+        self.__neighbombs()
+
 
     def __place_bombs(self):
         """
+        places randomly `self.__nbombs` bombs on the game's board.
+
+        :board effect: modifies self.__bomb_state to True for some cells in self.grid
         """
-        pass
-        # grid_copy = self.__grid.copy()
-        # number = self.__height * self.__width
-        # for i in range(number - self.__nbombs):
-        #     elem = random.choice(grid_copy)
-        #     grid_copy.remove(elem)
-        # for x, y in grid_copy:
-        #     self.get_cell(x, y).set_bomb()
+        # sample_row = random.sample(self.grid, self.__nbombs)
+        # sample_col = []
+        # for row in sample_row:
+        #     sample_col += random.sample(row, 1)
+        # for mine in sample_col:
+        #     mine.set_bomb()
+
+        sample_coord = random.sample([i for i in range(self.__height*self.__width)], self.__nbombs)
+        print(sample_coord)
+        for coord in sample_coord:
+            y = coord // self.__width
+            x = coord % self.__width
+            self.grid[y][x].set_bomb()
+
+    def __neighbombs(self):
+        """
+        Changes the values of self.__bombs_neighbours for each cell in the grid
+        according to the number of neighbours with bombs they each have.
+
+        :board effect: modifies self.__bombs_neighbours for every cell in self.grid
+        """
+        for i, row in enumerate(self.grid):
+            for j, le_cell in enumerate(row):
+                for x1, y1 in neighborhood(j, i, self.__width, self.__height):
+                    if self.grid[y1][x1].is_bomb():
+                        le_cell.incr_number_of_bombs_in_neighborhood()
+
 
     def get_height(self):
         """
@@ -181,7 +205,7 @@ class Minesweeper():
         :type: cell
         :UC: 0 <= x < width of game and O <= y < height of game
         """
-        return self.__grid[y][x]
+        return self.grid[y][x]
 
 
     def get_state(self):
@@ -192,6 +216,13 @@ class Minesweeper():
         """
         return self.__state
 
+
+    def loss(self):
+        """
+        :return: none, change the GameState in losing, makes the game finished
+        :UC: none
+        """ 
+        self.__state = GameState.losing
 
     def reveal_all_cells_from(self, x, y):
         """

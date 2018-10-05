@@ -125,7 +125,14 @@ def __changestate(board, game, x, y):
     """
     game.reveal_all_cells_from(x, y)
     __redraw(board, game, x, y)
+
+    if game.grid[y][x].is_bomb():
+        game.loss()
+
     __test_end(board, game)
+
+
+
 
 def __changeflag(evt, board, game, x, y):
     """

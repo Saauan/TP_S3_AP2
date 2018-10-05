@@ -26,9 +26,9 @@ def main():
         height = int(sys.argv[2])
         nbombs = int(sys.argv[3])
     else:
-        width = 20
-        height = 10
-        nbombs = 2
+        width = 30
+        height = 20
+        nbombs = 50
     game = Minesweeper(width, height, nbombs)
     graphicalboard.create(game)
 
