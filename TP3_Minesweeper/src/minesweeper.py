@@ -149,7 +149,6 @@ class Minesweeper():
         #     mine.set_bomb()
 
         sample_coord = random.sample([i for i in range(self.__height*self.__width)], self.__nbombs)
-        print(sample_coord)
         for coord in sample_coord:
             y = coord // self.__width
             x = coord % self.__width
