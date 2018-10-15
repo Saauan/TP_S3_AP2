@@ -108,6 +108,7 @@ def __test_end(board, game):
     if state == GameState.losing:
         __disable_game(board, game)
     elif state == GameState.winning:
+        print("The game is won")
         __block_game(board, game)
 
 def __changestate(board, game, x, y):
@@ -126,21 +127,9 @@ def __changestate(board, game, x, y):
     game.reveal_all_cells_from(x, y)
     __redraw(board, game, x, y)
 
-
     if game.grid[y][x].is_bomb(): #Loss situation
-        game.loss()
-    
-    
-    
-    cpt, nr = 0, game.get_nbombs() #counter of cells reset and nbr of bombs
-    for x in range(game.get_width()):
-        for y in range(game.get_height()):
-            if game.grid[y][x].is_revealed() == False:
-                cpt+=1
-                
-    if cpt==nr: #Win situation
-        game.win()
-
+        game.change_state_to_losing()
+    game.test_win()
     __test_end(board, game)
 
 

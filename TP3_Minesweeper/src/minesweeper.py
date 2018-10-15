@@ -96,7 +96,6 @@ class Minesweeper():
     >>> cel = game.get_cell(1, 2)
     >>> cel.is_revealed()
     False
-    >>> 
     """
 
     def __init__(self, width=30, height=20, nbombs=99):
@@ -133,34 +132,32 @@ class Minesweeper():
         self.grid = [[Cell() for j in range(width)] for i in range(height)]
         self.__place_bombs()
         self.__neighbombs()
-
+        self.__remaining_safe_cells = width*height - nbombs
 
     def __place_bombs(self):
         """
         places randomly `self.__nbombs` bombs on the game's board.
 
-        :board effect: modifies self.__bomb_state to True for some cells in self.grid
+        :return: none
+        :side effect: modifies self.__bomb_state to True for some cells in self.grid
+        :UC: none
         """
-        # sample_row = random.sample(self.grid, self.__nbombs)
-        # sample_col = []
-        # for row in sample_row:
-        #     sample_col += random.sample(row, 1)
-        # for mine in sample_col:
-        #     mine.set_bomb()
-
         sample_coord = random.sample([i for i in range(self.__height*self.__width)], self.__nbombs)
+        self.__bomblist = []
         for coord in sample_coord:
             y = coord // self.__width
             x = coord % self.__width
             self.grid[y][x].set_bomb()
+            self.__bomblist.append((y,x))
 
     def __neighbombs(self):
         """
         Changes the values of self.__bombs_neighbours for each cell in the grid
         according to the number of neighbours with bombs they each have.
 
-        :board effect: modifies self.__bombs_neighbours for every cell in self.grid
+        :side effect: modifies self.__bombs_neighbours for every cell in self.grid
         """
+        #DEBUG A REFAIRE AVEC LISTE DE BOMBES
         for i, row in enumerate(self.grid):
             for j, le_cell in enumerate(row):
                 for x1, y1 in neighborhood(j, i, self.__width, self.__height):
@@ -216,12 +213,18 @@ class Minesweeper():
         return self.__state
 
 
-    def loss(self):
+    def change_state_to_losing(self):
         """
         :return: none, change the GameState in losing, makes the game finished
         :UC: none
         """ 
         self.__state = GameState.losing
+
+    def change_state_to_winning(self):
+        """
+        :board effect: changes the __state atribute of self to winning
+        """
+        self.__state = GameState.winning
 
     def reveal_all_cells_from(self, x, y):
         """
@@ -232,12 +235,25 @@ class Minesweeper():
         :UC: 0 <= x < width of game and O <= y < height of game
         """ 
         if (self.get_cell(x, y).number_of_bombs_in_neighborhood() == 0
-        and self.get_cell(x, y).is_revealed() == False):
+            and self.get_cell(x, y).is_revealed() == False):
+
             self.get_cell(x, y).reveal()
+            self.__remaining_safe_cells -= 1
             for x1, y1 in neighborhood(x, y, self.get_width(), self.get_height()):
                 self.reveal_all_cells_from(x1, y1)
-        self.get_cell(x, y).reveal()
+        
+        if self.get_cell(x, y).is_revealed() == False:
+            self.get_cell(x, y).reveal()
+            self.__remaining_safe_cells -= 1
 
+    def test_win(self):
+        """
+        tests wether the game is won if all normal cells are revealed
+        :board effet: changes the GameState to winning if conditions are met
+        """
+        if self.__remaining_safe_cells == 0:
+            self.change_state_to_winning()
+    
 
 if __name__ == '__main__':
     import doctest
