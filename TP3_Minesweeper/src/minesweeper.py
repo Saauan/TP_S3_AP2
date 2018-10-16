@@ -4,7 +4,7 @@
 """
 :mod:`minesweeper` module
 
-:author: Coignion Tristan, Tayebi Ajwad
+:author: Coignion Tristan, Tayebi Ajwad, Becquembois Logan
 
 :date:  10/04/2018
 
@@ -148,22 +148,25 @@ class Minesweeper():
             y = coord // self.__width
             x = coord % self.__width
             self.grid[y][x].set_bomb()
-            self.__bomblist.append((y,x))
+            self.__bomblist.append((x,y))
 
     def __neighbombs(self):
         """
         Changes the values of self.__bombs_neighbours for each cell in the grid
         according to the number of neighbours with bombs they each have.
 
+        :return: none
+        
         :side effect: modifies self.__bombs_neighbours for every cell in self.grid
+        :UC: none
         """
-        #DEBUG A REFAIRE AVEC LISTE DE BOMBES
         for i, row in enumerate(self.grid):
             for j, le_cell in enumerate(row):
                 for x1, y1 in neighborhood(j, i, self.__width, self.__height):
                     if self.grid[y1][x1].is_bomb():
                         le_cell.incr_number_of_bombs_in_neighborhood()
-
+        # Can be done from the list of bombs:
+        # We iterate through the neighboors of the bombs instead of all the cells.
 
     def get_height(self):
         """
@@ -179,7 +182,7 @@ class Minesweeper():
         :return: width of the grid in game
         :rtype: int
         :UC: none
-            """
+        """
         return self.__width
     
     def get_nbombs(self):
@@ -215,14 +218,17 @@ class Minesweeper():
 
     def change_state_to_losing(self):
         """
-        :return: none, change the GameState in losing, makes the game finished
+        :return: none 
+        :side effect: change the GameState in losing, makes the game finished
         :UC: none
         """ 
         self.__state = GameState.losing
 
     def change_state_to_winning(self):
         """
-        :board effect: changes the __state atribute of self to winning
+        :return: none
+        :side effect: changes the __state atribute of self to winning
+        :UC: none
         """
         self.__state = GameState.winning
 
@@ -231,25 +237,37 @@ class Minesweeper():
         :param x: x-coordinate
         :param y: y-coordinate
         :return: none
-        :side effect: reveal all cells of game game from the initial cell (x,y).
+        :side effect: reveal all cells of game game from the initial cell (x,y). If the first cell is a bomb, changes the gamestate to losing
         :UC: 0 <= x < width of game and O <= y < height of game
         """ 
-        if (self.get_cell(x, y).number_of_bombs_in_neighborhood() == 0
+        # If the cell is not a number and not revealed.
+        if (self.get_cell(x, y).number_of_bombs_in_neighborhood() == 0 
             and self.get_cell(x, y).is_revealed() == False):
 
             self.get_cell(x, y).reveal()
             self.__remaining_safe_cells -= 1
+            
+            # We do it again for every cell around the first one.
             for x1, y1 in neighborhood(x, y, self.get_width(), self.get_height()):
                 self.reveal_all_cells_from(x1, y1)
         
+        # If the cell is not revealed, but has numbers or is a bomb.
         if self.get_cell(x, y).is_revealed() == False:
             self.get_cell(x, y).reveal()
-            self.__remaining_safe_cells -= 1
+            
+            # Not useful in the current state of the module, but we never know.
+            if not self.get_cell(x, y).is_bomb():
+                self.__remaining_safe_cells -= 1
+            else:
+                self.change_state_to_losing()
 
     def test_win(self):
         """
         tests wether the game is won if all normal cells are revealed
-        :board effet: changes the GameState to winning if conditions are met
+
+        :return: none
+        :side effet: changes the GameState to winning if conditions are met
+        :UC: none
         """
         if self.__remaining_safe_cells == 0:
             self.change_state_to_winning()

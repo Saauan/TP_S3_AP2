@@ -4,9 +4,9 @@
 """
 :mod:`graphicalboard` module
 
-:author: `FIL - IEEA - Univ. Lille1.fr <http://portail.fil.univ-lille1.fr>`_
+:author: Coignion Tristan, Tayebi Ajwad, Becquembois Logan, `FIL - IEEA - Univ. Lille1.fr <http://portail.fil.univ-lille1.fr>`_ 
 
-:date:  2015, september, last revision: 2017, september
+:date:  2015, september, last revision: 2018, september
 
 This module implements some functions to draw a minesweeper game. The
 graphical board uses buttons to draw each cell and maps the left-click
@@ -38,7 +38,7 @@ import os
 import tkinter as tk
 from functools import partial
 from cell import Cell
-from minesweeper import *
+from minesweeper import Minesweeper, GameState
 
 # the list of icons
 img = []
@@ -107,8 +107,9 @@ def __test_end(board, game):
     state = game.get_state()
     if state == GameState.losing:
         __disable_game(board, game)
+        print("The game is lost...")
     elif state == GameState.winning:
-        print("The game is won")
+        print("The game is won!")
         __block_game(board, game)
 
 def __changestate(board, game, x, y):
@@ -126,13 +127,8 @@ def __changestate(board, game, x, y):
     """
     game.reveal_all_cells_from(x, y)
     __redraw(board, game, x, y)
-
-    if game.grid[y][x].is_bomb(): #Loss situation
-        game.change_state_to_losing()
     game.test_win()
     __test_end(board, game)
-
-
 
 def __changeflag(evt, board, game, x, y):
     """

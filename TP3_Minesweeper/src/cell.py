@@ -4,10 +4,11 @@
 """
 :mod:`cell` module
 
-:author: Coignion Tristan, Ajwad Tayebi
+:author: Coignion Tristan, Ajwad Tayebi, Becquembois Logan
 
 :date: 10/04/2018
 
+This module provides functions and a class for minesweeper's cell's management.
 
 """
     

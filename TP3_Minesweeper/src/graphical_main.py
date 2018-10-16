@@ -4,7 +4,7 @@
 """
 :mod:`main` module
 
-:author: `FIL - IEEA - Univ. Lille1.fr <http://portail.fil.univ-lille1.fr>`_
+:author: Tristan Coignion, Ajwad Tayebi, Becquembois Logan, `FIL - IEEA - Univ. Lille1.fr <http://portail.fil.univ-lille1.fr>`_
 
 :date:  2015, september. Last revision: 2017, september
 
@@ -21,13 +21,14 @@ def main():
     """
     main function for graphical minesweeper game
     """
+    # Takes the argument from the console.
     if len(sys.argv) == 4:
         width = int(sys.argv[1])
         height = int(sys.argv[2])
         nbombs = int(sys.argv[3])
     else:
-        width = 5
-        height = 5
+        width = 20
+        height = 20
         nbombs = int(0.2*(width*height))
     game = Minesweeper(width, height, nbombs)
     graphicalboard.create(game)
