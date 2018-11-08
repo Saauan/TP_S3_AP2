@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>list2 module &mdash; List 0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="List 0 documentation" href="index.html" />
+    <link rel="next" title="recursive_sorts module" href="recursive_sorts.html" />
+    <link rel="prev" title="list1 module" href="list1.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="recursive_sorts.html" title="recursive_sorts module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="list1.html" title="list1 module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">List 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-list2">
+<span id="list2-module"></span><h1><a class="reference internal" href="#module-list2" title="list2"><code class="xref py py-mod docutils literal"><span class="pre">list2</span></code></a> module<a class="headerlink" href="#module-list2" title="Permalink to this headline">¶</a></h1>
+<p><code class="xref py py-mod docutils literal"><span class="pre">list</span></code> module</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">author:</th><td class="field-body">FIL - Faculté des Sciences et Technologies - 
+Univ. Lille &lt;<a class="reference external" href="http://portail.fil.univ-lille1.fr">http://portail.fil.univ-lille1.fr</a>&gt;_</td>
+</tr>
+<tr class="field-even field"><th class="field-name">date:</th><td class="field-body">2017, september</td>
+</tr>
+</tbody>
+</table>
+<p>Provides</p>
+<ul class="simple">
+<li>a class <a class="reference internal" href="#list2.List" title="list2.List"><code class="xref py py-class docutils literal"><span class="pre">List</span></code></a> for mutable lists</li>
+<li>an exception <a class="reference internal" href="#list2.ListError" title="list2.ListError"><code class="xref py py-class docutils literal"><span class="pre">ListError</span></code></a></li>
+</ul>
+<p>Lists are either empty, either essentially objects with two composants :</p>
+<ol class="arabic simple">
+<li>a <em>head</em> composant which represent the head value  of the list,</li>
+<li>and a <em>tail</em> composant which is represent the tail of the list</li>
+</ol>
+<div class="section" id="class-list">
+<h2>Class <a class="reference internal" href="#list2.List" title="list2.List"><code class="xref py py-class docutils literal"><span class="pre">List</span></code></a><a class="headerlink" href="#class-list" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="list2.List">
+<em class="property">class </em><code class="descclassname">list2.</code><code class="descname">List</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> (<em>tuple</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Build:</th><td class="field-body">a new empty list if args is empty, 
+or a list whose head is first element of args, 
+and tail list is second element of args.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">len(args) in {0, 2} 
+and if len(args) == 2, args[1] must be a List</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><a class="reference internal" href="#list2.ListError" title="list2.ListError"><code class="xref py py-class docutils literal"><span class="pre">ListError</span></code></a> if UC is not satisfied</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span> <span class="o">=</span> <span class="n">List</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="gt">Traceback (most recent call last):</span>
+  <span class="c">...</span>
+<span class="gr">ListError</span>: <span class="n">head: empty list</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list2</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list2</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list2</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">List</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">list2</span><span class="p">))</span>
+<span class="go">[2, 1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">list2</span><span class="p">)</span>
+<span class="go">[1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list3</span> <span class="o">=</span> <span class="n">List</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">list2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list3</span><span class="o">.</span><span class="n">set_head</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">list3</span><span class="p">)</span>
+<span class="go">[0, 1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list3</span><span class="o">.</span><span class="n">set_tail</span><span class="p">(</span><span class="n">List</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">list3</span><span class="p">)</span>
+<span class="go">[0]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<div class="section" id="selectors">
+<h3>Selectors<a class="headerlink" href="#selectors" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="list2.List.head">
+<code class="descclassname">List.</code><code class="descname">head</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List.head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List.head" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">head element of self</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><a class="reference internal" href="#list2.ListError" title="list2.ListError"><code class="xref py py-class docutils literal"><span class="pre">ListError</span></code></a> if self is empty</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="list2.List.tail">
+<code class="descclassname">List.</code><code class="descname">tail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List.tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List.tail" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tail list of self</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raise:</th><td class="field-body"><a class="reference internal" href="#list2.ListError" title="list2.ListError"><code class="xref py py-class docutils literal"><span class="pre">ListError</span></code></a> if self is empty</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="predicates">
+<h3>Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="list2.List.is_empty">
+<code class="descclassname">List.</code><code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li>True if self is empty</li>
+<li>False otherwise</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="modifiers">
+<h3>Modifiers<a class="headerlink" href="#modifiers" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="list2.List.set_head">
+<code class="descclassname">List.</code><code class="descname">set_head</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List.set_head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List.set_head" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>any</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Side effect:</th><td class="field-body">replace head element of self with x.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">self must be non empty</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><a class="reference internal" href="#list2.ListError" title="list2.ListError"><code class="xref py py-class docutils literal"><span class="pre">ListError</span></code></a> if self is empty</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="list2.List.set_tail">
+<code class="descclassname">List.</code><code class="descname">set_tail</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List.set_tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List.set_tail" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference internal" href="list1.html#list1.List" title="list1.List"><em>List</em></a>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Side effect:</th><td class="field-body">replace head element of self with x.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">UC:</th><td class="field-body">self must be non empty</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raise:</th><td class="field-body"><a class="reference internal" href="#list2.ListError" title="list2.ListError"><code class="xref py py-class docutils literal"><span class="pre">ListError</span></code></a> if self is empty or if l is not a List</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="special-method">
+<h3>Special method<a class="headerlink" href="#special-method" title="Permalink to this headline">¶</a></h3>
+<dl class="method">
+<dt id="list2.List.__str__">
+<code class="descclassname">List.</code><code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#List.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.List.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a string representation of list self</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">UC:</th><td class="field-body">none</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="exception">
+<h2>Exception<a class="headerlink" href="#exception" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="list2.ListError">
+<em class="property">exception </em><code class="descclassname">list2.</code><code class="descname">ListError</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/list2.html#ListError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#list2.ListError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception used by methods</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">__init__</span></code></li>
+<li><code class="docutils literal"><span class="pre">head</span></code></li>
+<li><code class="docutils literal"><span class="pre">tail</span></code></li>
+<li><code class="docutils literal"><span class="pre">set_head</span></code></li>
+<li><code class="docutils literal"><span class="pre">set_tail</span></code></li>
+</ul>
+<p>of class <a class="reference internal" href="#list2.List" title="list2.List"><code class="xref py py-class docutils literal"><span class="pre">List</span></code></a>.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/UL-FST-informatique-rvb.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal"><span class="pre">list2</span></code> module</a><ul>
+<li><a class="reference internal" href="#class-list">Class <code class="docutils literal"><span class="pre">List</span></code></a><ul>
+<li><a class="reference internal" href="#selectors">Selectors</a></li>
+<li><a class="reference internal" href="#predicates">Predicates</a></li>
+<li><a class="reference internal" href="#modifiers">Modifiers</a></li>
+<li><a class="reference internal" href="#special-method">Special method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exception">Exception</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="list1.html"
+                        title="previous chapter"><code class="docutils literal"><span class="pre">list1</span></code> module</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="recursive_sorts.html"
+                        title="next chapter"><code class="docutils literal"><span class="pre">recursive_sorts</span></code> module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/list2.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="recursive_sorts.html" title="recursive_sorts module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="list1.html" title="list1 module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">List 0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        ;<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/"> <img alt="Licence Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>. <a href="http://www.fil.univ-lille1.fr">2016, Tristan Coignion, Ajwad Tayebi, Logan Becquembois, Univ. Lille1</a>.
+      Last updated on 08/11/2018.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.7.
+    </div>
+  </body>
+</html>
