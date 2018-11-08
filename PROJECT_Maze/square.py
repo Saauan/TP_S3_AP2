@@ -14,98 +14,183 @@ This module provides functions and a class for maze's squares management.
     
 class Square():
     
-    def __init__(self, MGauche = False, MHaut = False, MDroit = False, MBas = False, Passage = False):
+    OPPOSITES = {'Left':'Right',
+                            'Right':'Left',
+                             'Top':'Bottom',
+                             'Bottom':'Top'}
+    
+    def __init__(self, x, y, state = "blank"):
         """
         :return: a new square of a maze's grid.
         :rtype: Square
         :UC: none
         :Examples:
 
-        >>> square = Square()
-        >>> square.has_leftWall()
+        >>> square = Square(0,1)
+        >>> square.has_leftRampart()
+        True
+        >>> square.has_topRampart()
+        True
+        >>> square.has_rightRampart()
+        True
+        >>> square.has_bottomRampart()
+        True
+        >>> square.is_surrounded()
+        True
+        >>> square.get_ramparts()
+        {'Left': True, 'Top': True, 'Right': True, 'Bottom': True}
+        >>> square.get_coordinates()
+        (0, 1)
+        >>> square.square_modification('Right', False)
+        >>> square.has_rightRampart()
         False
-        >>> square.has_topWall()
+        >>> square.is_surrounded()
         False
-        >>> square.has_rightWall()
-        False
-        >>> square.has_bottomWall()
-        False
-        >>> square.walls()
-        (False, False, False, False)
+        >>> square.get_ramparts()
+        {'Left': True, 'Top': True, 'Right': False, 'Bottom': True}
         """
-        self.__leftWall = MGauche
-        self.__topWall = MHaut
-        self.__rightWall = MDroit
-        self.__bottomWall = MBas
+        self.__x, self.__y = x, y
+        self.__ramparts = {'Left' : True, 'Top' : True, 'Right' : True, 'Bottom' : True}
+        self.__state = state
 
-    def has_leftWall(self):
+
+
+
+    def has_leftRampart(self):
         """
-        :return: True if self has a left-hand wall, False otherwise
+        :return: True if self has a left-hand rampart, False otherwise
         :rtype: bool
         :UC: none
         :Example:
 
-        >>> square = Square()
-        >>> square.has_leftWall()
-        False
+        >>> square = Square(0,1)
+        >>> square.has_leftRampart()
+        True
         """
-        return self.__leftWall == True
+        return self.__ramparts['Left'] == True
 
-    def has_topWall(self):
+
+    def has_topRampart(self):
         """
         :return: True if self has an upper wall, False otherwise
         :rtype: bool
         :UC: none
         :Example:
 
-        >>> square = Square()
-        >>> square.has_topWall()
-        False
+        >>> square = Square(0,1)
+        >>> square.has_topRampart()
+        True
         """
-        return self.__topWall == True
+        return self.__ramparts['Top'] == True
         
-    def has_rightWall(self):
+        
+    def has_rightRampart(self):
         """
         :return: True if self has a right-hand wall, False otherwise
         :rtype: bool
         :UC: none
         :Example:
 
-        >>> square = Square()
-        >>> square.has_rightWall()
-        False
+        >>> square = Square(0,1)
+        >>> square.has_rightRampart()
+        True
         """
-        return self.__rightWall == True
+        return self.__ramparts['Right'] == True
 
-    def has_bottomWall(self):
+
+    def has_bottomRampart(self):
         """
         :return: True if self has a lower wall, False otherwise
         :rtype: bool
         :UC: none
         :Example:
 
-        >>> square = Square()
-        >>> square.has_bottomWall()
-        False
+        >>> square = Square(0,1)
+        >>> square.has_bottomRampart()
+        True
         """
-        return self.__bottomWall == True
+        return self.__ramparts['Bottom'] == True
 
-    def walls(self):
+
+    def is_surrounded(self):
         """
-        Gives the walls composition in the following order:
-                Left, Top, Right, Bottom
-
-        :return: a tuple containing True if there is a wall, False otherwise
-        :rtype: tuple
+        :return: True if the square is surrounded, False otherwise
+        :rtype: bool
         :UC: none
         :Example:
 
-        >>> square = Square()
-        >>> square.walls()
-        (False, False, False, False)
+        >>> square = Square(0,1)
+        >>> square.is_surrounded()
+        True
         """
-        return (self.__leftWall, self.__topWall, self.__rightWall, self.__bottomWall)
+        return all(self.__ramparts.values())
+    
+    
+    
+    
+    def rampart_deletion(self, neighbour, rampart):
+        """
+        Allows the 'destruction' of a rampart between 2 squares given as parameters.
+        
+        :param: self & neighbour (Square) - the two specific squares
+                    rampart (str) - 
+        :return: None
+        :effect: Inverse the bool one-sided wall between neighbour and rampart (only horizontal or vertical)
+        """
+        assert rampart in {'Left','Top','Right','Bottom'}, "The rampart has to be Left, Top, Right or Bottom"
+        self.__ramparts[rampart] = False # Destroys the ramparts separating self and neighbour
+        neighbour.__ramparts[Square.OPPOSITES[rampart]]  = False
    
+   
+   
+   
+    def get_coordinates(self):
+        """
+        :return: (tuple) containing the coordinates of the square
+        
+        :Example:
+        
+        >>> square = Square(0,1)
+        >>> square.get_coordinates()
+        (0, 1)
+        """
+        return (self.__x, self.__y)
+    
+    
+    def get_ramparts(self):
+        """
+        :return: (dict) containing the ramparts of the square
+        
+        :Example:
+        
+        >>> square = Square(0,1)
+        >>> square.get_ramparts()
+        {'Left': True, 'Top': True, 'Right': True, 'Bottom': True}
+        """
+        return self.__ramparts
+    
+    
+    
+    
+    def square_modification(self, rampart, value):
+        """
+        :param: rampart (str) - the rampart to modify
+                    value (bool) - True if there is a rampart, False otherwise
+        :return: None
+        :effect: Change the value of one of the rampart
+        
+        :Example:
+        
+        >>> square = Square(0,1)
+        >>> square.has_bottomRampart()
+        True
+        >>> square.square_modification("Bottom", False)
+        >>> square.has_bottomRampart()
+        False
+        """
+        assert (value == True) or (value == False), "The value of the rampart has to be a boolean."
+        assert rampart in {'Left','Top','Right','Bottom'}, "The rampart has to be Left, Top, Right or Bottom"
+        self.__ramparts[rampart] = value
 
 
 if __name__ == '__main__':
