@@ -250,7 +250,7 @@ class Maze():
         :effect: Create a new HTML file in the folder containing the SVG representation of the maze
         :UC: the maze self has to be already generated
         """
-        H = 775 ; W = int(H * (self.get_width() / self.get_height())) ; p = 20 # Size of the Maze in pixels & the padding (used later)
+        H = 650 ; W = int(H * (self.get_width() / self.get_height())) ; p = 20 # Size of the Maze in pixels & the padding (used later)
         # To draw the maze's lines, we consider the following scales :
         sX = H / self.get_height() ; sY = W / self.get_width()
         with open("{:s}.html".format(fichier), 'w') as output:
